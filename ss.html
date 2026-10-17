@@ -1,170 +1,332 @@
-<!DOCTYPE html>
-<html lang="el">
-<head>
-  <meta charset="UTF-8">
-  <title>YouTube Search Engine</title>
-  <script src="https://fontawesome.com"></script>
-  <link href="https://fontawesome.com" media="all" rel="stylesheet">
-  <link rel="stylesheet" href="https://cloudflare.com">
+<html lang="en"><head>
   
-  <style>
-    #search-btn { cursor: pointer; }
-    #results { padding: 10px 0; list-style: none; overflow: auto; }
-    
-    /* clickable στυλ για τα βίντεο */
-    #results li { 
-      cursor: pointer; 
-      padding: 15px; 
-      margin-bottom: 10px;
-      border-radius: 6px;
-      transition: background 0.2s ease;
-    }
-    #results li:hover { background-color: #f5f5f5; }
-    
-    .list-left { float: left; width: 20%; }
-    .list-left img { width: 100%; padding: 3px; border: solid #ccc 1px; }
-    .list-right { width: 78%; float: right; }
-    .cTitle { color: #dd2826; font-weight: bold; }
-    
-    /* Στυλ για τον Video Player */
-    #videoPlayerContainer { margin: 20px auto; max-width: 640px; display: none; }
-    .embed-container {
-      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-      max-width: 100%; background: #000; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    }
-    .embed-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-.fieldContainer {
-  display: flex;
-  justify-content: center;
-  max-width: 300px; /* Ρυθμίστε αυτό το νούμερο για το πόσο μικρό/μεγάλο θέλετε το συνολικό κουτί */
-  margin: 0 auto;  /* Κεντράρει όλη τη μπάρα στην οθόνη */
+  <meta charset="UTF-8">
+   <script src="https://apis.google.com/_/scs/abc-static/_/js/k=gapi.lb.el.xzmUa_mul2g.O/m=client/rt=j/sv=1/d=1/ed=1/rs=AHpOoo-dJZxCI2eDzh1wNZlo8ESZUMTzuw/cb=gapi.loaded_0?le=scs" async=""></script>
+  
+<style>
+body {
+   margin: 0 auto;
+   background: #1f2223;
+   overflow-x: hidden;
+   min-width: 350px;
+   font-family: monospace;
+}
+.logo{
+   padding-top:8px;
+   display:block;
+   margin:auto;
+}
+.top_bar {
+   margin: 0 auto;
+   width: 100%;
+   min-height: 50px;
+   background: black;
+   color: white;
+   font-size: 16px;
+   border-bottom: 2px solid #464646!important;
+   border: none;
+   padding: 0px 10px;
 }
 
-.searchField {
-  flex-grow: 1; /* Λέει στο κουτί να πιάνει όλο τον διαθέσιμο χώρο, κάνοντας το flexible! */
+.url_box {
+   padding: 10px;
+   align-items: center;
+   margin-top: 8px;
+   margin-left: 22%;
+   margin-bottom:10px;
+   width: 54%;
+   border-radius: 5px;
+   border: none;
+   background: #343535;
+   color: darkgrey;
+   text-align: center;
+   font-size:15px;
 }
 
-  </style>
+input:focus {
+   outline: none;
+}
+
+.codegena {
+   position: relative;
+   height: 0;
+   padding-bottom: 41.17%;
+   /* center the div */
+   right: 0;
+   left: 0;
+   margin-right: auto;
+   margin-left: auto;
+   /* give it dimensions */
+   width: 65.9%;
+   top: 1vh;
+   background:url('https://codegena.com/wp-content/uploads/2017/03/loading_icon.gif') center center no-repeat;
+
+}
+
+.codegena iframe {
+   position: absolute;
+   top: 0px;
+   left: 0px;
+   width: 100%;
+   height: 90%;
+   border-radius: 5px;
+}
+
+
+/* F A Q*/
+
+.container {
+   margin-top: 1vh!important;
+   width: 65.9%;
+   margin-right: auto;
+   margin-left: auto;
+   transition: all 0.2s cubic-bezier(.7, .2, .17, 1);
+   box-shadow: 0 0 2px hsla(0, 0%, 0%, 0.1);
+   overflow: hidden;
+   position: relative;
+   background: hsla(0, 24%, 1%, 0.5);
+   border-radius: 5px;
+}
+.functionBar{
+   padding:5px;
+   text-align:center;
+}
+
+.content {
+   padding: 5%;
+}
+
+.content h2 {
+   color: #afb9ac;
+   font-size:large;
+}
+
+.content p {
+   color: #777;
+}
+
+
+/* Footer Credits*/
+
+footer p,
+a {
+   color: white;
+   font-weight: bold;
+   text-align: center;
+   font-family: monospace;
+}
+
+
+/* Scroll Bar */
+
+body::-webkit-scrollbar {
+   width: 0.5em;
+}
+
+body::-webkit-scrollbar-track {
+   background: #1f2223;
+}
+
+body::-webkit-scrollbar-thumb {
+   background-color: #3c4244;
+   outline: 1px solid slategrey;
+}
+
+
+/*Button*/
+
+button {
+   padding: 9px;
+   border: none;
+   border-radius: 5px;
+   margin-left: 10px;
+   font-family: monospace;
+   background: #9e9e9e;
+   cursor: pointer;
+}
+
+button:hover {
+   background: #635d5d;
+}
+
+button:focus {
+   outline: 0;
+}
+
+@media only screen and (max-width: 420px) {
+   .url_box {
+      width: 40%;
+   }
+}
+.thumbnail{
+   height:80px!important;
+   height:auto;
+   padding:5px;
+   border-radius:10px;
+}
+/* Related Videos Styles*/
+#relatedVideos{
+   text-align:center;
+   cursor:pointer;
+}
+#relatedVideos a{
+   opacity:0.2;   
+}
+#relatedVideos a:hover{
+   opacity:.7;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
 </head>
 
-<body class="container">
-  
-  <div id="container" class="text-center jumbotron">
-    
-    <section>
-      <!-- Διορθώθηκε το onsubmit ώστε να καλεί σωστά τη συνάρτηση -->
-      <form id="searchForm" name="searchForm" onsubmit="searchVideo(event)">
-        <div class="fieldContainer form-inline">
-          <input type="search" id="query" class="searchField form-control" placeholder="Αναζήτηση στο YouTube..." >
-          <button type="submit" id="search-btn" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </div>
-      </form>
+<body translate="no">
+  <!-- age restricted video - https://www.youtube.com/watch?v=ZIM1HydF9UA -->
+<!-- FAQ : https://codepen.io/blazicke/pen/pbxpga?editors=1100 
+http://keepvid.com/?url=https://youtu.be/34Na4j8AVgA -->
+<div class="top_bar">
+   <a href="#"><img class="logo" height="50px" src="https://codegena.com/wp-content/uploads/2017/03/ytlogo2.png" title="Youtube18 - Search as you type."> </a>
+   <input class="url_box" type="text" id="ytUrl" placeholder="Search or enter URL here" onkeyup="youtube_parser();">
+   <button onclick="reset()">Close</button>
 
-      <!-- Video Player Container -->
-      <div id="videoPlayerContainer">
-        <div class="embed-container">
-          <iframe id="youtubePlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
+   <div class="container">
+      <div id="relatedVideos">
+         <!-- Related videos -->
       </div>
+   </div>
+</div>
+<noscript style="text-align:center;color:white;">
+   <h2>Please enable javascript for this site.</h2>
+   </noscript>
 
-      <div id="results" class="text-left" style="margin-top: 30px;"></div>
-    </section>
-  </div>
+<div class="codegena" id="player">
+   <iframe src="https://youtube.com/embed/demo" frameborder="0" id="ytPlayer" allowfullscreen=""></iframe>
 
-  <!-- Χρήση jQuery -->
-  <script src="https://cloudflare.com"></script>
-  <script>
-    // Handler για τα εφέ της μπάρας αναζήτησης
-    $(function () {
-      var searchField = $('#query');
-      searchField.on('focus', function () { $(this).animate({ width: '80%' }, 400); });
-      searchField.on('blur', function () {
-        if ($(this).val() === '') { $(this).animate({ width: '60%' }, 400); }
-      });
-    });
+</div>
 
-    // Η βασική συνάρτηση αναζήτησης
-    function searchVideo(event) {
-      event.preventDefault(); // Σταματάει το αναγκαστικό refresh της σελίδας
 
-      // Καθαρισμός παλιών αποτελεσμάτων και κλείσιμο player
-      $('#results').html('');
-      $('#videoPlayerContainer').hide();
-      $('#youtubePlayer').attr('src', '');
+</div>
 
-      var q = $('#query').val();
-      if (!q) return;
 
-      // Κλήση στο YouTube API
-      $.get("https://www.googleapis.com/youtube/v3/search", {
-        part: 'snippet',
-        q: q,
-        type: 'video',
-        maxResults: 4,
-        // ⚠️ ΑΝΤΙΚΑΤΑΣΤΗΣΤΕ ΤΟ ΜΕ ΤΟ ΔΙΚΟ ΣΑΣ API KEY ΑΝ ΔΕΝ ΒΓΑΖΕΙ ΑΠΟΤΕΛΕΣΜΑΤΑ
-        key: 'AIzaSyDM3hzbxJh4UTjb9CDRPCwYNe_zTNNf_eE' 
-      })
-      .done(function (data) {
-        if(data.items.length === 0) {
-          $('#results').html('<p class="text-center">Δεν βρέθηκαν αποτελέσματα.</p>');
-          return;
-        }
+<!-- F A Q -->
 
-        // Εμφάνιση των αποτελεσμάτων
-        $.each(data.items, function (i, item) {
-          if (item.id && item.id.videoId) {
-            var output = getOutput(item);
-            $('#results').append(output);
-          }
-        });
-      })
-      .fail(function(xhr) {
-        // Αν αποτύχει, μας δείχνει στην οθόνη τι φταίει (π.χ. Quota Exceeded)
-        var errorMsg = "Προέκυψε σφάλμα κατά την αναζήτηση.";
-        if(xhr.status === 403) {
-          errorMsg = "<strong>Σφάλμα 403 (Forbidden):</strong> Πιθανότατα εξαντλήθηκε το ημερήσιο όριο (Quota) του API Key ή το κλειδί είναι λάθος. Βάλτε το δικό σας προσωπικό κλειδί!";
-        }
-        $('#results').html('<div class="alert alert-danger">' + errorMsg + '</div>');
-      });
-    }
+</div>
 
-    // Δημιουργία του HTML για κάθε βίντεο στη λίστα
-    function getOutput(item) {
-      var videoId = item.id.videoId;
-      var title = item.snippet.title;
-      var description = item.snippet.description;
-      var thumb = item.snippet.thumbnails.high.url;
-      var channelTitle = item.snippet.channelTitle;
-      var videoDate = new Date(item.snippet.publishedAt).toLocaleDateString('el-GR');
 
-      var output = '<li onclick="playVideo(\'' + videoId + '\')">' +
-      '<div class="list-left">' +
-      '<img src="' + thumb + '">' +
-      '</div>' +
-      '<div class="list-right">' +
-      '<h3>' + title + '</h3>' +
-      '<small>Από <span class="cTitle">' + channelTitle + '</span> στις ' + videoDate + '</small>' +
-      '<p>' + description + '</p>' +
-      '</div>' +
-      '</li>' +
-      '<div class="clearfix"></div>';
+  <script src="//apis.google.com/js/client.js?onload=handleAPILoaded" gapi_processed="true"></script>
+    <script id="rendered-js">
+/*
+Optimizatons & features Required
 
-      return output;
-    }
+autocompletion below search box - 
+http://stackoverflow.com/questions/11275365/youtube-api-search-auto-complete
+https://jqueryui.com/autocomplete/
+https://codepen.io/tayfunerbilen/pen/rIHvD?editors=1010
+http://shreyaschand.com/blog/2013/01/03/google-autocomplete-api/
+ 
+*/
 
-    // Ενεργοποίηση και ομαλό άνοιγμα του Video Player
-    function playVideo(videoId) {
-      if (!videoId || videoId === 'undefined') return;
+var myTimeout;
 
-      var embedUrl = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-      $('#youtubePlayer').attr('src', embedUrl);
-      
-      $('#videoPlayerContainer').slideDown(400, function() {
-        $('html, body').animate({
-          scrollTop: $("#videoPlayerContainer").offset().top - 20
-        }, 400);
-      });
-    }
+function youtube_parser() {
+  clearTimeout(myTimeout);
+  var urlBox = document.getElementById("ytUrl");
+  var url = urlBox.value;
+  var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+  var match = url.match(regExp);
+  if (match && match[7].length == 11) {
+    loadVideo(match[7]);
+  } else if (urlBox.value != '') {
+    // keyWordsearch();      
+    myTimeout = setTimeout(keyWordsearch, 300);
+  } else {
+    reset();
+  }
+}
+
+function loadVideo(id) {
+  //checks whether the new video is same as the one already playing..
+  //if so, exit function to avoid player refresh
+  if (sessionStorage.currentID == id)
+  return;
+  sessionStorage.currentID = id;
+  var video = document.getElementById("ytPlayer");
+  video.setAttribute('src', "https://www.youtube.com/embed/" + id + "?autoplay=1&iv_load_policy=3&rel=0");
+}
+
+function reset() {
+  sessionStorage.clear();
+  document.getElementById('ytUrl').value = "";
+  document.getElementById("ytPlayer").setAttribute('src', 'https://youtube.com/embed/demo');
+  document.getElementById('relatedVideos').innerHTML = "";
+}
+
+//Youtube Instant 
+//AIzaSyCmh6oIkO9zVR5s7QtOeYwsZTN0lOV5OjI
+function keyWordsearch() {
+  gapi.client.setApiKey('AIzaSyCmh6oIkO9zVR5s7QtOeYwsZTN0lOV5OjI');
+  gapi.client.load('youtube', 'v3', function () {
+    console.log("API Called.");
+    makeRequest();
+  });
+}
+function makeRequest() {
+  var q = document.getElementById('ytUrl').value;
+  var request = gapi.client.youtube.search.list({
+    q: q,
+    part: 'snippet', //changed from id to snippet to get video title and thumbnail
+    type: 'video',
+    maxResults: 6 });
+
+  request.execute(function (response) {
+
+    var srchItems = response.result.items;
+    console.log("API Returned ");
+    console.log(srchItems);
+    loadVideo(srchItems[0].id.videoId);
+    document.getElementById('relatedVideos').innerHTML = "";
+    for (i = 1; i < 6; ++i) {if (window.CP.shouldStopExecution(0)) break;
+      document.getElementById('relatedVideos').innerHTML += "<a onclick='loadVideo(\"" + srchItems[i].id.videoId + "\")'><img class='thumbnail' title='" + srchItems[i].snippet.title + "' src='" + srchItems[i].snippet.thumbnails.medium.url + "'/></a>";
+    }window.CP.exitedLoop(0);
+
+  });
+}
+
+function createGif() {
+  if (sessionStorage.currentID) {
+    window.open("https://gifs.com/?source=https://youtu.be/" + sessionStorage.currentID);
+  } else {
+    alert("No video found!");
+  }
+}
+
+function downloadVideo() {
+  if (sessionStorage.currentID) {
+    window.open("http://keepvid.com/?url=https://youtu.be/" + sessionStorage.currentID);
+  } else {
+    alert("No video found");
+  }
+}
+
+
+//ignores non alphanumeric key entry
+document.onkeydown = checkKey;
+function checkKey(e) {
+
+  e = e || window.event;
+  console.log(e.keyCode);
+
+  if (e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode >= 173 && e.keyCode <= 179) {
+    console.log('Ignored keyboard entry');
+  }
+
+}
+//#
   </script>
-</body>
-</html>
+
+</body></html>
