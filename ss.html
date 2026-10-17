@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Search Engine</title>
+  <script src="https://fontawesome.com"></script>
+  <link href="https://fontawesome.com" media="all" rel="stylesheet">
+  <link rel="stylesheet" href="https://cloudflare.com">
+  
+  <style>
+    #search-btn { cursor: pointer; }
+    #results { padding: 10px 0; list-style: none; overflow: auto; }
+    
+    /* clickable στυλ για τα βίντεο */
+    #results li { 
+      cursor: pointer; 
+      padding: 15px; 
+      margin-bottom: 10px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+    #results li:hover { background-color: #f5f5f5; }
+    
+    .list-left { float: left; width: 20%; }
+    .list-left img { width: 100%; padding: 3px; border: solid #ccc 1px; }
+    .list-right { width: 78%; float: right; }
+    .cTitle { color: #dd2826; font-weight: bold; }
+    
+    /* Στυλ για τον Video Player */
+    #videoPlayerContainer { margin: 20px auto; max-width: 640px; display: none; }
+    .embed-container {
+      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+      max-width: 100%; background: #000; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .embed-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.fieldContainer {
+  display: flex;
+  justify-content: center;
+  max-width: 300px; /* Ρυθμίστε αυτό το νούμερο για το πόσο μικρό/μεγάλο θέλετε το συνολικό κουτί */
+  margin: 0 auto;  /* Κεντράρει όλη τη μπάρα στην οθόνη */
+}
+
+.searchField {
+  flex-grow: 1; /* Λέει στο κουτί να πιάνει όλο τον διαθέσιμο χώρο, κάνοντας το flexible! */
+}
+
+  </style>
+</head>
+
+<body class="container">
+  
+  <div id="container" class="text-center jumbotron">
+    
+    <section>
+      <!-- Διορθώθηκε το onsubmit ώστε να καλεί σωστά τη συνάρτηση -->
+      <form id="searchForm" name="searchForm" onsubmit="searchVideo(event)">
+        <div class="fieldContainer form-inline">
+          <input type="search" id="query" class="searchField form-control" placeholder="Αναζήτηση στο YouTube..." >
+          <button type="submit" id="search-btn" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+      </form>
+
+      <!-- Video Player Container -->
+      <div id="videoPlayerContainer">
+        <div class="embed-container">
+          <iframe id="youtubePlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <div id="results" class="text-left" style="margin-top: 30px;"></div>
+    </section>
+  </div>
+
+  <!-- Χρήση jQuery -->
+  <script src="https://cloudflare.com"></script>
+  <script>
+    // Handler για τα εφέ της μπάρας αναζήτησης
+    $(function () {
+      var searchField = $('#query');
+      searchField.on('focus', function () { $(this).animate({ width: '80%' }, 400); });
+      searchField.on('blur', function () {
+        if ($(this).val() === '') { $(this).animate({ width: '60%' }, 400); }
+      });
+    });
+
+    // Η βασική συνάρτηση αναζήτησης
+    function searchVideo(event) {
+      event.preventDefault(); // Σταματάει το αναγκαστικό refresh της σελίδας
+
+      // Καθαρισμός παλιών αποτελεσμάτων και κλείσιμο player
+      $('#results').html('');
+      $('#videoPlayerContainer').hide();
+      $('#youtubePlayer').attr('src', '');
+
+      var q = $('#query').val();
+      if (!q) return;
+
+      // Κλήση στο YouTube API
+      $.get("https://www.googleapis.com/youtube/v3/search", {
+        part: 'snippet',
+        q: q,
+        type: 'video',
+        maxResults: 10,
+        // ⚠️ ΑΝΤΙΚΑΤΑΣΤΗΣΤΕ ΤΟ ΜΕ ΤΟ ΔΙΚΟ ΣΑΣ API KEY ΑΝ ΔΕΝ ΒΓΑΖΕΙ ΑΠΟΤΕΛΕΣΜΑΤΑ
+        key: 'AIzaSyDhk1jC3jeN5oxfCWeM5fz3oJxQBdBge4Q' 
+      })
+      .done(function (data) {
+        if(data.items.length === 0) {
+          $('#results').html('<p class="text-center">Δεν βρέθηκαν αποτελέσματα.</p>');
+          return;
+        }
+
+        // Εμφάνιση των αποτελεσμάτων
+        $.each(data.items, function (i, item) {
+          if (item.id && item.id.videoId) {
+            var output = getOutput(item);
+            $('#results').append(output);
+          }
+        });
+      })
+      .fail(function(xhr) {
+        // Αν αποτύχει, μας δείχνει στην οθόνη τι φταίει (π.χ. Quota Exceeded)
+        var errorMsg = "Προέκυψε σφάλμα κατά την αναζήτηση.";
+        if(xhr.status === 403) {
+          errorMsg = "<strong>Σφάλμα 403 (Forbidden):</strong> Πιθανότατα εξαντλήθηκε το ημερήσιο όριο (Quota) του API Key ή το κλειδί είναι λάθος. Βάλτε το δικό σας προσωπικό κλειδί!";
+        }
+        $('#results').html('<div class="alert alert-danger">' + errorMsg + '</div>');
+      });
+    }
+
+    // Δημιουργία του HTML για κάθε βίντεο στη λίστα
+    function getOutput(item) {
+      var videoId = item.id.videoId;
+      var title = item.snippet.title;
+      var description = item.snippet.description;
+      var thumb = item.snippet.thumbnails.high.url;
+      var channelTitle = item.snippet.channelTitle;
+      var videoDate = new Date(item.snippet.publishedAt).toLocaleDateString('el-GR');
+
+      var output = '<li onclick="playVideo(\'' + videoId + '\')">' +
+      '<div class="list-left">' +
+      '<img src="' + thumb + '">' +
+      '</div>' +
+      '<div class="list-right">' +
+      '<h3>' + title + '</h3>' +
+      '<small>Από <span class="cTitle">' + channelTitle + '</span> στις ' + videoDate + '</small>' +
+      '<p>' + description + '</p>' +
+      '</div>' +
+      '</li>' +
+      '<div class="clearfix"></div>';
+
+      return output;
+    }
+
+    // Ενεργοποίηση και ομαλό άνοιγμα του Video Player
+    function playVideo(videoId) {
+      if (!videoId || videoId === 'undefined') return;
+
+      var embedUrl = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+      $('#youtubePlayer').attr('src', embedUrl);
+      
+      $('#videoPlayerContainer').slideDown(400, function() {
+        $('html, body').animate({
+          scrollTop: $("#videoPlayerContainer").offset().top - 20
+        }, 400);
+      });
+    }
+  </script>
+</body>
+</html>
