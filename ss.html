@@ -1,9 +1,7 @@
 <html lang="en"><head>
-  
   <meta charset="UTF-8">
    <script src="https://apis.google.com/_/scs/abc-static/_/js/k=gapi.lb.el.xzmUa_mul2g.O/m=client/rt=j/sv=1/d=1/ed=1/rs=AHpOoo-dJZxCI2eDzh1wNZlo8ESZUMTzuw/cb=gapi.loaded_0?le=scs" async=""></script>
-  
-<style>
+  <style>
 body {
    margin: 0 auto;
    background: #1f2223;
@@ -72,7 +70,6 @@ input:focus {
    border-radius: 5px;
 }
 
-
 /* F A Q*/
 
 .container {
@@ -104,7 +101,6 @@ input:focus {
 .content p {
    color: #777;
 }
-
 
 /* Footer Credits*/
 
@@ -164,7 +160,7 @@ button:focus {
    padding:5px;
    border-radius:10px;
 }
-/* Related Videos Styles*/
+/* */
 #relatedVideos{
    text-align:center;
    cursor:pointer;
@@ -176,21 +172,14 @@ button:focus {
    opacity:.7;
 }
 </style>
-
   <script>
   window.console = window.console || function(t) {};
 </script>
-
-  
-  
 </head>
-
 <body translate="no">
- 
 <div class="top_bar">
    <input class="url_box" type="text" id="ytUrl" placeholder="Search or enter URL here" onkeyup="youtube_parser();">
    <button onclick="reset()">Close</button>
-
    <div class="container">
       <div id="relatedVideos">
          <!-- Related videos -->
@@ -203,33 +192,14 @@ button:focus {
 
 <div class="codegena" id="player">
    <iframe src="https://youtube.com/embed/demo" frameborder="0" id="ytPlayer" allowfullscreen=""></iframe>
-
 </div>
-
-
 </div>
-
-
-<!-- F A Q -->
-
 </div>
-
-
   <script src="//apis.google.com/js/client.js?onload=handleAPILoaded" gapi_processed="true"></script>
     <script id="rendered-js">
 /*
-Optimizatons & features Required
-
-autocompletion below search box - 
-http://stackoverflow.com/questions/11275365/youtube-api-search-auto-complete
-https://jqueryui.com/autocomplete/
-https://codepen.io/tayfunerbilen/pen/rIHvD?editors=1010
-http://shreyaschand.com/blog/2013/01/03/google-autocomplete-api/
- 
 */
-
 var myTimeout;
-
 function youtube_parser() {
   clearTimeout(myTimeout);
   var urlBox = document.getElementById("ytUrl");
@@ -247,8 +217,6 @@ function youtube_parser() {
 }
 
 function loadVideo(id) {
-  //checks whether the new video is same as the one already playing..
-  //if so, exit function to avoid player refresh
   if (sessionStorage.currentID == id)
   return;
   sessionStorage.currentID = id;
@@ -263,8 +231,6 @@ function reset() {
   document.getElementById('relatedVideos').innerHTML = "";
 }
 
-//Youtube Instant 
-//AIzaSyCmh6oIkO9zVR5s7QtOeYwsZTN0lOV5OjI
 function keyWordsearch() {
   gapi.client.setApiKey('AIzaSyCmh6oIkO9zVR5s7QtOeYwsZTN0lOV5OjI');
   gapi.client.load('youtube', 'v3', function () {
@@ -310,8 +276,6 @@ function downloadVideo() {
   }
 }
 
-
-//ignores non alphanumeric key entry
 document.onkeydown = checkKey;
 function checkKey(e) {
 
@@ -323,7 +287,7 @@ function checkKey(e) {
   }
 
 }
-//#
+
   </script>
 
 </body></html>
