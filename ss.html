@@ -188,7 +188,7 @@ button:focus {
   
 <div class="top_bar">
    <input class="url_box" type="text" id="ytUrl" placeholder="Search or enter URL here" onkeyup="youtube_parser();">
-   <button onclick="reset()">Close</button>
+   <button onclick="reset()">Clear</button>
 </div>
 
 <noscript style="text-align:center;color:white;">
@@ -197,7 +197,7 @@ button:focus {
 
 <!-- 📺 1. Η ΟΘΟΝΗ ΤΟΥ ΒΙΝΤΕΟ ΠΡΩΤΑ (ΠΑΝΩ) -->
 <div class="codegena" id="player">
-   <iframe src="https://youtube.com/embed/U014HPNzNZ8" frameborder="0" id="ytPlayer" allowfullscreen=""></iframe>
+   <iframe src="https://youtube.com/embed/ftOEt8FxeK8" frameborder="0" id="ytPlayer" allowfullscreen=""></iframe>
 </div>
 
 <!-- 📋 2. ΟΙ ΕΙΚΟΝΕΣ ΤΩΝ ΒΙΝΤΕΟ ΜΕΤΑ (ΑΠΟ ΚΑΤΩ) -->
@@ -247,7 +247,7 @@ function loadVideo(id) {
 function reset() {
   sessionStorage.clear();
   document.getElementById('ytUrl').value = "";
-  document.getElementById("ytPlayer").setAttribute('src', 'https://youtube.com/embed/U014HPNzNZ8');
+  document.getElementById("ytPlayer").setAttribute('src', 'https://youtube.com/embed/ftOEt8FxeK8');
   document.getElementById('relatedVideos').innerHTML = "";
 }
 
