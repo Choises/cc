@@ -215,19 +215,8 @@ http://keepvid.com/?url=https://youtu.be/34Na4j8AVgA -->
 </div>
 
 
-  <script src="//apis.google.com/js/client.js?onload=handleAPILoaded" gapi_processed="true"></script>
+     <script src="//apis.google.com/js/client.js?onload=handleAPILoaded" gapi_processed="true"></script>
     <script id="rendered-js">
-/*
-Optimizatons & features Required
-
-autocompletion below search box - 
-http://stackoverflow.com/questions/11275365/youtube-api-search-auto-complete
-https://jqueryui.com/autocomplete/
-https://codepen.io/tayfunerbilen/pen/rIHvD?editors=1010
-http://shreyaschand.com/blog/2013/01/03/google-autocomplete-api/
- 
-*/
-
 var myTimeout;
 
 function youtube_parser() {
@@ -263,8 +252,6 @@ function reset() {
   document.getElementById('relatedVideos').innerHTML = "";
 }
 
-//Youtube Instant 
-//AIzaSyCmh6oIkO9zVR5s7QtOeYwsZTN0lOV5OjI
 function keyWordsearch() {
   gapi.client.setApiKey('AIzaSyClCJEgN8nBpplIq2d-FCmrpxZZKjyoPQE');
   gapi.client.load('youtube', 'v3', function () {
@@ -272,58 +259,48 @@ function keyWordsearch() {
     makeRequest();
   });
 }
+
 function makeRequest() {
   var q = document.getElementById('ytUrl').value;
   var request = gapi.client.youtube.search.list({
     q: q,
-    part: 'snippet', //changed from id to snippet to get video title and thumbnail
+    part: 'snippet',
     type: 'video',
-    maxResults: 6 });
+    maxResults: 5 
+  });
 
   request.execute(function (response) {
-
-    var srchItems = response.result.items;
-    console.log("API Returned ");
-    console.log(srchItems);
-    loadVideo(srchItems[0].id.videoId);
-    document.getElementById('relatedVideos').innerHTML = "";
-    for (i = 1; i < 6; ++i) {if (window.CP.shouldStopExecution(0)) break;
-      document.getElementById('relatedVideos').innerHTML += "<a onclick='loadVideo(\"" + srchItems[i].id.videoId + "\")'><img class='thumbnail' title='" + srchItems[i].snippet.title + "' src='" + srchItems[i].snippet.thumbnails.medium.url + "'/></a>";
-    }window.CP.exitedLoop(0);
-
+    if (response && response.result && response.result.items) {
+        var srchItems = response.result.items;
+        console.log("API Returned");
+        
+        // 🔥 👉 ΔΙΟΡΘΩΣΗ 2: Φορτώνουμε σωστά το πρώτο βίντεο [0] της αναζήτησης live στην κεντρική οθόνη!
+        if (srchItems && srchItems[0] && srchItems[0].id && srchItems[0].id.videoId) {
+            loadVideo(srchItems[0].id.videoId);
+        }
+        
+        document.getElementById('relatedVideos').innerHTML = "";
+        for (var i = 1; i < srchItems.length; i++) {
+            if (srchItems[i] && srchItems[i].id && srchItems[i].id.videoId) {
+                var vId = srchItems[i].id.videoId;
+                var vTitle = srchItems[i].snippet.title.replace(/'/g, "\\'"); // Προστασία για απόστροφους
+                var vThumb = srchItems[i].snippet.thumbnails.medium.url;
+                
+                document.getElementById('relatedVideos').innerHTML += "<a onclick='loadVideo(\"" + vId + "\")'><img class='thumbnail' title='" + vTitle + "' src='" + vThumb + "'/></a>";
+            }
+        }
+    }
   });
 }
 
-function createGif() {
-  if (sessionStorage.currentID) {
-    window.open("https://gifs.com/?source=https://youtu.be/" + sessionStorage.currentID);
-  } else {
-    alert("No video found!");
-  }
-}
-
-function downloadVideo() {
-  if (sessionStorage.currentID) {
-    window.open("http://keepvid.com/?url=https://youtu.be/" + sessionStorage.currentID);
-  } else {
-    alert("No video found");
-  }
-}
-
-
-//ignores non alphanumeric key entry
 document.onkeydown = checkKey;
 function checkKey(e) {
-
   e = e || window.event;
-  console.log(e.keyCode);
-
   if (e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode >= 173 && e.keyCode <= 179) {
     console.log('Ignored keyboard entry');
   }
-
 }
-//#
   </script>
+
 
 </body></html>
