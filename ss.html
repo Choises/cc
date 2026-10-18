@@ -57,7 +57,7 @@ input:focus {
    margin-left: auto;
    width: 96%;             /* 🔥 ΑΛΛΑΓΗ: Πλάτος στο 96% για να γεμίσει η οθόνη */
    top: 1vh;
-   background:url('https://codegena.com') center center no-repeat;
+   background:url('https://xatimg.com/image/3Hzrpugf7ede.png') center center no-repeat;
 }
 
 .codegena iframe {
@@ -183,9 +183,7 @@ button:focus {
 </head>
 
 <body translate="no">
-  <!-- age restricted video - https://www.youtube.com/watch?v=ZIM1HydF9UA -->
-<!-- FAQ : https://codepen.io/blazicke/pen/pbxpga?editors=1100 
-http://keepvid.com/?url=https://youtu.be/34Na4j8AVgA -->
+  
 <div class="top_bar">
    
    <input class="url_box" type="text" id="ytUrl" placeholder="Search or enter URL here" onkeyup="youtube_parser();">
@@ -202,7 +200,7 @@ http://keepvid.com/?url=https://youtu.be/34Na4j8AVgA -->
    </noscript>
 
 <div class="codegena" id="player">
-   <iframe src="https://youtube.com/embed/demo" frameborder="0" id="ytPlayer" allowfullscreen=""></iframe>
+   <iframe src="https://youtube.com/embed/U014HPNzNZ8" frameborder="0" id="ytPlayer" allowfullscreen=""></iframe>
 
 </div>
 
@@ -248,7 +246,7 @@ function loadVideo(id) {
 function reset() {
   sessionStorage.clear();
   document.getElementById('ytUrl').value = "";
-  document.getElementById("ytPlayer").setAttribute('src', 'https://youtube.com/embed/demo');
+  document.getElementById("ytPlayer").setAttribute('src', 'https://youtube.com/embed/U014HPNzNZ8');
   document.getElementById('relatedVideos').innerHTML = "";
 }
 
