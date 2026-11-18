@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="el"><head>  
-  <meta charset="UTF-8">
-  
+  <meta charset="UTF-8">     
 <style>
 body {
    margin: 0 auto;
@@ -196,7 +195,7 @@ button:focus {
 
 <!-- 📺 1. Η ΟΘΟΝΗ ΤΟΥ ΒΙΝΤΕΟ ΠΡΩΤΑ (ΠΑΝΩ) -->
 <div class="codegena" id="player">
-   <iframe src="https://youtube.com/embed/_n-S8L3_4co?list=PLZbc7UYSkhvrdzlWOkJcg28rZuUha3OmZ" frameborder="0" id="ytPlayer" allowfullscreen=""></iframe>
+   <iframe src="https://www.youtube-nocookie.com/embed/_n-S8L3_4co?list=PLZbc7UYSkhvrdzlWOkJcg28rZuUha3OmZ" frameborder="0" id="ytPlayer" allowfullscreen=""></iframe>
 </div>
 
 <!-- 📋 2. ΟΙ ΕΙΚΟΝΕΣ ΤΩΝ ΒΙΝΤΕΟ ΜΕΤΑ (ΑΠΟ ΚΑΤΩ) -->
@@ -205,6 +204,8 @@ button:focus {
       <!-- Related videos -->
    </div>
 </div>
+
+
 
 <!-- F A Q -->
 
@@ -235,13 +236,13 @@ function loadVideo(id) {
   return;
   sessionStorage.currentID = id;
   var video = document.getElementById("ytPlayer");
-  video.setAttribute('src', "https://www.youtube.com/embed/" + id + "?autoplay=1&iv_load_policy=3&rel=0");
+  video.setAttribute('src', "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&iv_load_policy=3&rel=0");
 }
 
 function reset() {
   sessionStorage.clear();
   document.getElementById('ytUrl').value = "";
-  document.getElementById("ytPlayer").setAttribute('src', 'https://youtube.com/embed/_n-S8L3_4co?list=PLZbc7UYSkhvrdzlWOkJcg28rZuUha3OmZ');
+  document.getElementById("ytPlayer").setAttribute('src', 'https://www.youtube-nocookie.com/embed/_n-S8L3_4co?list=PLZbc7UYSkhvrdzlWOkJcg28rZuUha3OmZ');
   document.getElementById('relatedVideos').innerHTML = "";
 }
 
@@ -294,5 +295,4 @@ function checkKey(e) {
   }
 }
   </script>
-
 </body></html>
